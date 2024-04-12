@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.filmes.api.ApiCredentials
 import com.example.filmes.data.DataState
-import com.example.filmes.data.FilmesLatest
+import com.example.filmes.data.Filmes
+import com.example.filmes.data.FilmesResponse
 import com.example.filmes.filmesDetalhes.FilmeDetalhes
 import com.example.filmes.filmesHome.FilmesService
 import retrofit2.Call
@@ -21,22 +22,27 @@ class FilmeViewModel : ViewModel(){
         get() = _filmeDetalhesLiveData
     private val _filmeDetalhesLiveData = MutableLiveData<FilmeDetalhes>()
 
+
     /** LiveData - LISTA */
-    val filmesListaLiveData: LiveData<List<FilmesLatest>?>
+    val filmesListaLiveData: LiveData<List<Filmes>?>
         get() = _filmesListaLiveData
-    private val _filmesListaLiveData = MutableLiveData<List<FilmesLatest>?>()
+    private val _filmesListaLiveData = MutableLiveData<List<Filmes>?>()
+
 
     /** Estado do App (Sucesso ERRO Carregando) */
     val appState: LiveData<DataState>
         get() =  _appState
     private val _appState = MutableLiveData<DataState>()
 
-    /** LiveData - navigationDETAIL */
+
+    /** LiveData - Navegação para Tela de Detalhes */
     val navigationToDetalhesLiveData
         get() = _navigationToDetalhesLiveData
     private val _navigationToDetalhesLiveData = MutableLiveData<Unit>()
 
+
     /**  ***************************************************************************** */
+
 
     /** Instancia do RETROFIT - acesso e credenciais para API */
     private val retrofit = Retrofit.Builder()
@@ -44,20 +50,22 @@ class FilmeViewModel : ViewModel(){
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
-    private val filmesService = retrofit.create(FilmesService::class.java)
-    /**  */
+    private val filmesService = retrofit.create(FilmesService::class.java)                          //Chama Serviço para API .themoviedb
 
-    /** Executa o acesso ao API */
+
+    /** executa automaticamente sempre que uma nova instância da classe for criada */
     init {
         getFilmesData()
     }
 
 
+    /** Detalhes: conteudo Fixo */
     fun onFilmeSelected(position: Int) {
-        val filmeDetalhes = FilmeDetalhes("Minha HQ", "Este é apenas texto")
+        val filmeDetalhes = FilmeDetalhes("FILME", "Este é apenas Descrição")
         _filmeDetalhesLiveData.postValue(filmeDetalhes)
         _navigationToDetalhesLiveData.postValue(Unit)
     }
+
 
     /**Função para carregar conteudo. Tipo [FilmesDetalhes.kt]*/
     fun loadFilmeDetalhes(): FilmeDetalhes {
@@ -68,21 +76,21 @@ class FilmeViewModel : ViewModel(){
     /**  Função Dados dos Filmes da API - Trata resposta (sucesso/falha) */
     private fun getFilmesData() {
         filmesService.getFilmesLista(ApiCredentials.API_KEY)
-            .enqueue(object : Callback<FilmesLatest> {
+            .enqueue(object : Callback<FilmesResponse> {
+
                 override fun onResponse(
-                    call: Call<FilmesLatest>,
-                    response: Response<FilmesLatest>
+                    call: Call<FilmesResponse>,
+                    response: Response<FilmesResponse>
                 ) {
                     if (response.isSuccessful) {
-                        _filmesListaLiveData.postValue(response.body()?.)
+                        _filmesListaLiveData.postValue(response.body()?.results)
                         _appState.postValue(DataState.Success)
                     }else{
                         _appState.postValue(DataState.Error)
                     }
-
                 }
 
-                override fun onFailure(call: Call<FilmesLatest>, t: Throwable) {
+                override fun onFailure(call: Call<FilmesResponse>, t: Throwable) {
                     _appState.postValue(DataState.Error)
                 }
             })

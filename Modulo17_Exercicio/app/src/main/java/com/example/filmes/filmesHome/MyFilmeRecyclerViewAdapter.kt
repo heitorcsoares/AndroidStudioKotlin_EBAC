@@ -3,11 +3,9 @@ package com.example.filmes.filmesHome
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.filmes.R
-import com.example.filmes.data.FilmesLatest
-import com.example.filmes.placeholder.PlaceholderContent.PlaceholderItem
+import com.example.filmes.data.Filmes
 import com.example.filmes.databinding.FragmentItemBinding
 
 /** Mantem a (Interface) depois dos (import) */
@@ -19,9 +17,9 @@ class MyfilmeRecyclerViewAdapter(
     private val listener: FilmeItemListener                                //Adiciona ouvinte como um parâmetro do construtor
 ) : RecyclerView.Adapter<MyfilmeRecyclerViewAdapter.ViewHolder>() {
 
-    private var values: List<FilmesLatest> = ArrayList()
+    private var values: List<Filmes> = ArrayList()
 
-    fun updateData(filmeList: List<FilmesLatest>){
+    fun updateData(filmeList: List<Filmes>){
         values = filmeList
         notifyDataSetChanged()
     }
@@ -55,7 +53,7 @@ class MyfilmeRecyclerViewAdapter(
     inner class ViewHolder(private val binding: FragmentItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val view = binding.root
 
-        fun bindItem(item: FilmesLatest){
+        fun bindItem(item: Filmes){
             binding.filmeItem = item                //filmeItem-> Variavel (fragment_item | Data)
             binding.executePendingBindings()
         }
