@@ -55,6 +55,7 @@ class FilmeViewModel : ViewModel(){
 
     /** executa automaticamente sempre que uma nova instância da classe for criada */
     init {
+        _appState.postValue(DataState.Loading)
         getFilmesData()
     }
 
@@ -64,12 +65,6 @@ class FilmeViewModel : ViewModel(){
         val filmeDetalhes = FilmeDetalhes("FILME", "Este é apenas Descrição")
         _filmeDetalhesLiveData.postValue(filmeDetalhes)
         _navigationToDetalhesLiveData.postValue(Unit)
-    }
-
-
-    /**Função para carregar conteudo. Tipo [FilmesDetalhes.kt]*/
-    fun loadFilmeDetalhes(): FilmeDetalhes {
-        return FilmeDetalhes("Meus Filmes", "Este é apenas um conteúdo Fixo!")
     }
 
 

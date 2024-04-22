@@ -43,8 +43,9 @@ class MyfilmeRecyclerViewAdapter(
         holder.view.setOnClickListener {
             listener.onItemSelected(position)
 
-            /** Inicie a ação de navegação para a tela de detalhes */
+            /** Inicie a ação de navegação para a tela de detalhes
             holder.view.findNavController().navigate(R.id.action_filmeItemFragment_to_filmeDetalhesFragment)
+             */
         }
     }
 
@@ -54,7 +55,7 @@ class MyfilmeRecyclerViewAdapter(
         val view = binding.root
 
         fun bindItem(item: Filmes){
-            binding.filmeItem = item                //filmeItem-> Variavel (fragment_item | Data)
+            binding.filmeItem = item                        //filmeItem-> Variavel (fragment_item | Data)
             binding.executePendingBindings()
         }
     }

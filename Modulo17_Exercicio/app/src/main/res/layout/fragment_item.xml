@@ -5,7 +5,7 @@
     <data>
         <variable
             name="filmeItem"
-            type="com.example.filmes.placeholder.PlaceholderContent.PlaceholderItem" />
+            type="com.example.filmes.data.Filmes" />
     </data>
 
     <LinearLayout
@@ -35,7 +35,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/img_batman" />
+                    app:srcCompat='@{filmeItem.poster_path ?? ""}' />
 
                 <Button
                     android:id="@+id/button"
@@ -58,7 +58,7 @@
                     android:layout_marginTop="20dp"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textColor="#FFFFFF"
-                    android:text="TITLE"
+                    android:text="@{filmeItem.title}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:textAlignment="center"
-                    android:text = "OVERVIEW"
+                    android:text = "@{filmeItem.overview}"
                     android:textColor="@color/cor01"
                     android:textAppearance="?attr/textAppearanceListItem"
                     app:layout_constraintEnd_toEndOf="parent"

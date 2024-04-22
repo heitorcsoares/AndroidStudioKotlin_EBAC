@@ -1,5 +1,6 @@
 package com.example.filmes.filmesHome
 
+import com.example.filmes.api.ApiCredentials
 import com.example.filmes.data.FilmesResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -9,11 +10,7 @@ interface FilmesService {
 
     @GET("https://api.themoviedb.org/3/movie/now_playing")
     fun getFilmesLista(
-        @Query("id") id: String,
-        @Query("title") title: String,
-        @Query("overview") overview: String,
-        @Query("popularity") popularity: Int,
-        @Query("poster_path") poster_path: String
+        @Query("API_KEY") apikey: String = ApiCredentials.API_KEY
     ) : Call<FilmesResponse>
 
 }
